@@ -1,0 +1,102 @@
+#pragma kernel PlaceAndCull
+
+struct GrassInstance
+{
+    float3 position;
+    float height;
+    float2 facing;
+    float width;
+    float random;
+};
+
+AppendStructuredBuffer<GrassInstance> _VisibleGrass;
+Texture2D<float4> _Heightmap;
+Texture2D<float4> _ControlMap;
+SamplerState sampler_linear_clamp;
+
+float3 _TerrainPosition;
+float3 _TerrainSize;
+float2 _HeightTexelSize;
+int2 _CurrentChunk;
+int _CellsPerChunkAxis;
+float _ChunkSize;
+int _TerrainLayerChannel;
+float _DensityMultiplier;
+float _DrawDistance;
+float3 _CameraPosition;
+float4x4 _ViewProjection;
+float _MinHeight;
+float _MaxHeight;
+float _MinWidth;
+float _MaxWidth;
+
+float Hash21(float2 value)
+{
+    value = frac(value * float2(123.34, 456.21));
+    value += dot(value, value + 45.32);
+    return frac(value.x * value.y);
+}
+
+float SampleHeight(float2 uv)
+{
+    float4 encoded = _Heightmap.SampleLevel(sampler_linear_clamp, saturate(uv), 0);
+    // Unity Terrain stores [0, 1] heights in only 32766 of the 65535 R16 steps.
+    // This matches TerrainPaintUtility's normalized height scale and keeps blades
+    // on the rendered Terrain instead of approximately halfway underground.
+#if defined(SHADER_API_VULKAN) || defined(SHADER_API_GLES3) || defined(SHADER_API_WEBGPU)
+    float packedHeight = (encoded.r + encoded.g * 256.0) / 257.0;
+#else
+    float packedHeight = encoded.r;
+#endif
+    return packedHeight * (65535.0 / 32766.0);
+}
+
+[numthreads(8, 8, 1)]
+void PlaceAndCull(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)_CellsPerChunkAxis || id.y >= (uint)_CellsPerChunkAxis)
+        return;
+
+    int2 localCell = int2(id.xy);
+    int2 chunkCoordinate = _CurrentChunk;
+
+    float random = Hash21(float2(chunkCoordinate * 92821 + localCell));
+    float randomX = Hash21(float2(chunkCoordinate * 62519 + localCell + 17));
+    float randomZ = Hash21(float2(chunkCoordinate * 33857 + localCell + 53));
+    float2 localPosition = (float2(localCell) + float2(randomX, randomZ)) / _CellsPerChunkAxis;
+    float2 terrainLocalXZ = float2(chunkCoordinate) * _ChunkSize + localPosition * _ChunkSize;
+    if (any(terrainLocalXZ < 0.0) || terrainLocalXZ.x >= _TerrainSize.x || terrainLocalXZ.y >= _TerrainSize.z)
+        return;
+
+    float2 uv = terrainLocalXZ / _TerrainSize.xz;
+    float density = _ControlMap.SampleLevel(sampler_linear_clamp, uv, 0)[_TerrainLayerChannel] * _DensityMultiplier;
+    if (random > saturate(density))
+        return;
+
+    float heightSample = SampleHeight(uv);
+    float heightLeft = SampleHeight(uv - float2(_HeightTexelSize.x, 0));
+    float heightRight = SampleHeight(uv + float2(_HeightTexelSize.x, 0));
+    float heightBack = SampleHeight(uv - float2(0, _HeightTexelSize.y));
+    float heightForward = SampleHeight(uv + float2(0, _HeightTexelSize.y));
+    float worldDx = max(_TerrainSize.x * _HeightTexelSize.x, 0.0001);
+    float worldDz = max(_TerrainSize.z * _HeightTexelSize.y, 0.0001);
+    float dhDx = (heightRight - heightLeft) * _TerrainSize.y / (2.0 * worldDx);
+    float dhDz = (heightForward - heightBack) * _TerrainSize.y / (2.0 * worldDz);
+    float3 normal = normalize(float3(-dhDx, 1.0, -dhDz));
+    float3 position = _TerrainPosition + float3(terrainLocalXZ.x, heightSample * _TerrainSize.y, terrainLocalXZ.y);
+    if (distance(position, _CameraPosition) > _DrawDistance)
+        return;
+
+    float4 clip = mul(_ViewProjection, float4(position, 1.0));
+    if (clip.w <= 0.0 || abs(clip.x) > clip.w * 1.1 || abs(clip.y) > clip.w * 1.1)
+        return;
+
+    float facingAngle = Hash21(float2(chunkCoordinate + localCell * 19)) * 6.2831853;
+    GrassInstance instance;
+    instance.position = position + normal * 0.003;
+    instance.height = lerp(_MinHeight, _MaxHeight, Hash21(float2(localCell + chunkCoordinate * 13)));
+    instance.facing = float2(cos(facingAngle), sin(facingAngle));
+    instance.width = lerp(_MinWidth, _MaxWidth, Hash21(float2(localCell + chunkCoordinate * 31)));
+    instance.random = random;
+    _VisibleGrass.Append(instance);
+}

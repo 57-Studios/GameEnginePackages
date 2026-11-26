@@ -1,0 +1,14 @@
+{
+    "name": "Studios57.TerrainScatter.Editor",
+    "rootNamespace": "Studios57.TerrainScatter.Editor",
+    "references": ["Studios57.TerrainScatter.Runtime"],
+    "includePlatforms": ["Editor"],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

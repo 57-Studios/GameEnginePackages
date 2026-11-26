@@ -1,0 +1,20 @@
+{
+    "name": "Studios57.DeformableSnow.Testing",
+    "rootNamespace": "Studios57.DeformableSnow.Testing",
+    "references": [
+        "Studios57.DeformableSnow.Runtime",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_EDITOR"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

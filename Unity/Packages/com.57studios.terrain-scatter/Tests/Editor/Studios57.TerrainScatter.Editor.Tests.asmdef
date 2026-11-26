@@ -1,0 +1,15 @@
+{
+    "name": "Studios57.TerrainScatter.Editor.Tests",
+    "rootNamespace": "Studios57.TerrainScatter.Editor.Tests",
+    "references": ["Studios57.TerrainScatter.Runtime", "Studios57.TerrainScatter.Editor"],
+    "optionalUnityReferences": ["TestAssemblies"],
+    "includePlatforms": ["Editor"],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

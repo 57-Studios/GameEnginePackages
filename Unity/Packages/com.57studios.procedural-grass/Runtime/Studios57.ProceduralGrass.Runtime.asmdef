@@ -1,0 +1,14 @@
+{
+  "name": "Studios57.ProceduralGrass.Runtime",
+  "rootNamespace": "Studios57.ProceduralGrass",
+  "references": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

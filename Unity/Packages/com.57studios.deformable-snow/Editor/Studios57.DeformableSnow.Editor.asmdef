@@ -1,0 +1,19 @@
+{
+    "name": "Studios57.DeformableSnow.Editor",
+    "rootNamespace": "Studios57.DeformableSnow.Editor",
+    "references": [
+        "Studios57.DeformableSnow.Runtime",
+        "Studios57.DeformableSnow.Testing"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

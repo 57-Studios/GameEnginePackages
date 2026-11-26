@@ -1,0 +1,15 @@
+{
+    "name": "Studios57.DeformableSnow.Editor.Tests",
+    "rootNamespace": "Studios57.DeformableSnow.Editor.Tests",
+    "references": ["Studios57.DeformableSnow.Runtime", "Studios57.DeformableSnow.Editor"],
+    "optionalUnityReferences": ["TestAssemblies"],
+    "includePlatforms": ["Editor"],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

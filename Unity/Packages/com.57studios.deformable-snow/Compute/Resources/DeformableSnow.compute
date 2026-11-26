@@ -1,0 +1,126 @@
+﻿// 57Studios Deformable Snow - Phase 1 heightfield kernels.
+// Capture -> separable blur -> accumulate/refill -> debug visualisation.
+// No CPU readback: every stage stays on the GPU.
+
+#pragma kernel BlurH
+#pragma kernel BlurV
+#pragma kernel Accumulate
+#pragma kernel Visualize
+
+Texture2D<float> CaptureTex;
+Texture2D<float> SourceTex;
+RWTexture2D<float> OutputTex;
+RWTexture2D<float4> VisualTex;
+
+float Gain;
+float DeltaTime;
+float RefillPerSecond;
+// 1 when the capture ran this frame, 0 when it was skipped. Without this the accumulate
+// kernel keeps reading last frame's capture and a stationary foot deepens forever.
+float ContactScale;
+float NormalStrength;
+int Resolution;
+int Mode;
+int CaptureFlipX;
+int CaptureFlipY;
+int2 HeightOffset;
+
+// 9-tap gaussian, sigma = 2 texels. On an 8 m volume at 1024^2 that is a ~1.6 cm
+// compression ramp, which is what stops a 4.8 cm print reading as a cut hole.
+static const float KernelWeights[9] = {
+    0.0276, 0.0663, 0.1238, 0.1802, 0.2042, 0.1802, 0.1238, 0.0663, 0.0276
+};
+
+int2 ClampCoord(int2 p)
+{
+    return clamp(p, int2(0, 0), int2(Resolution - 1, Resolution - 1));
+}
+
+// The capture camera looks up at the scene, so its image can be mirrored on one axis.
+// Correct it here once, before the blur, instead of scattering flips through the pipeline.
+float SampleCapture(int2 p)
+{
+    if (CaptureFlipX != 0)
+        p.x = Resolution - 1 - p.x;
+    if (CaptureFlipY != 0)
+        p.y = Resolution - 1 - p.y;
+    return CaptureTex[p];
+}
+
+// Separable 5-tap gaussian. Two 5-tap passes (10 fetches) instead of a single
+// 25-tap pass keeps the blur inside the per-frame budget at 1024^2.
+[numthreads(8, 8, 1)]
+void BlurH(uint3 id : SV_DispatchThreadID)
+{
+    if ((int)id.x >= Resolution || (int)id.y >= Resolution)
+        return;
+
+    float sum = 0.0;
+    [unroll] for (int x = -4; x <= 4; x++)
+        sum += SampleCapture(ClampCoord(int2(id.xy) + int2(x, 0))) * KernelWeights[x + 4];
+    OutputTex[id.xy] = sum;
+}
+
+[numthreads(8, 8, 1)]
+void BlurV(uint3 id : SV_DispatchThreadID)
+{
+    if ((int)id.x >= Resolution || (int)id.y >= Resolution)
+        return;
+
+    float sum = 0.0;
+    [unroll] for (int y = -4; y <= 4; y++)
+        sum += CaptureTex[ClampCoord(int2(id.xy) + int2(0, y))] * KernelWeights[y + 4];
+    OutputTex[id.xy] = sum;
+}
+
+[numthreads(8, 8, 1)]
+void Accumulate(uint3 id : SV_DispatchThreadID)
+{
+    if ((int)id.x >= Resolution || (int)id.y >= Resolution)
+        return;
+
+    // Compression is stored as a positive height: 0 = untouched snow, 1 = fully pressed.
+    // Accumulate by contact time so the result is frame-rate independent, then refill.
+    // ContactScale is zero on frames where the capture was skipped, so the stale mask is
+    // not re-added; refill still runs, because snow keeps falling while nobody is captured.
+    float contact = saturate(CaptureTex[id.xy]) * ContactScale;
+    // The window moves by whole texels. Copy the overlapping world positions and clear the new edge.
+    int2 previousCoord = int2(id.xy) + HeightOffset;
+    float previous = all(previousCoord >= 0) && all(previousCoord < Resolution) ? SourceTex[previousCoord] : 0.0;
+    float accumulated = saturate(previous + contact * Gain * DeltaTime);
+    float refilled = max(0.0, accumulated - RefillPerSecond * DeltaTime);
+    OutputTex[id.xy] = refilled;
+}
+
+[numthreads(8, 8, 1)]
+void Visualize(uint3 id : SV_DispatchThreadID)
+{
+    if ((int)id.x >= Resolution || (int)id.y >= Resolution)
+        return;
+
+    float4 color;
+    if (Mode == 0)
+    {
+        // Compression height, white = fully pressed.
+        float h = SourceTex[id.xy];
+        color = float4(h, h, h, 1.0);
+    }
+    else if (Mode == 1)
+    {
+        // Raw capture mask.
+        float c = SampleCapture(int2(id.xy));
+        color = float4(c, c, c, 1.0);
+    }
+    else
+    {
+        // Derived normal from the heightfield, for slope checks.
+        float hL = SourceTex[ClampCoord(int2(id.xy) + int2(-1, 0))];
+        float hR = SourceTex[ClampCoord(int2(id.xy) + int2(1, 0))];
+        float hD = SourceTex[ClampCoord(int2(id.xy) + int2(0, -1))];
+        float hU = SourceTex[ClampCoord(int2(id.xy) + int2(0, 1))];
+        float3 n = normalize(float3(-(hR - hL) * NormalStrength, 1.0, -(hU - hD) * NormalStrength));
+        color = float4(n * 0.5 + 0.5, 1.0);
+    }
+
+    VisualTex[id.xy] = color;
+}

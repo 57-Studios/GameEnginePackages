@@ -1,0 +1,23 @@
+{
+  "name": "Studios57.ProceduralGrass.Editor.Tests",
+  "rootNamespace": "Studios57.ProceduralGrass.Editor.Tests",
+  "references": [
+    "Studios57.ProceduralGrass.Runtime"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "nunit.framework.dll"
+  ],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
