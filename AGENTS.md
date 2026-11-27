@@ -222,7 +222,11 @@ After migration, the `Assets/57Studios/<Package>/` copy must not come back.
 
 ## 7. Current packages
 
-As of **2026-11-26**, three packages have been migrated into this repository and TestBench consumes them as local `file:` packages.
+As of **2026-11-27**, three packages have been migrated into this public repository and TestBench consumes them as local `file:` packages. The first release tags are published:
+
+- `unity-deformable-snow-v0.1.0`
+- `unity-procedural-grass-v0.1.0`
+- `unity-terrain-scatter-v0.1.0`
 
 | Package | Package ID | Path | License | Status |
 |---|---|---|---|---|

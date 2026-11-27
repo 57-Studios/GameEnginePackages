@@ -18,6 +18,8 @@ The first three Unity packages are migrated and are consumed locally by the Test
 
 The old `Assets/57Studios` copies have been removed. TestBench references the repository packages through its `Packages/manifest.json`.
 
+The repository is public, and the first `v0.1.0` tags are published for all three packages.
+
 ## Install
 
 In Unity, open **Window → Package Manager → + → Add package from git URL** and use one of these pinned URLs.
