@@ -186,7 +186,7 @@ ln -s /path/to/GameEnginePackages/Unity/Packages/com.57studios.example \
 Example consumer install:
 
 ```text
-https://github.com/57Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.example#unity-example-v1.0.0
+https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.example#unity-example-v1.0.0
 ```
 
 The `?path=` parameter must come before `#tag`.

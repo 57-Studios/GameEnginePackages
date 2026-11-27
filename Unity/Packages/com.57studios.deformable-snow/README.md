@@ -6,6 +6,14 @@ Runtime heightfield snow: surfaces accumulate a low-resolution displacement map 
 
 **Status.** A screen-space pass shades eligible surfaces using the depth buffer. Each snow volume supplies a local heightfield for footprints and trails. Multiple loaded volumes can contribute to the same camera view.
 
+## Installation
+
+In Unity, open **Window → Package Manager → + → Add package from git URL**:
+
+```text
+https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.deformable-snow#unity-deformable-snow-v0.1.0
+```
+
 **New to this addon?** Read [`Documentation~/guide.html`](Documentation~/guide.html) — a single self-contained page covering setup, concepts, the full API, tuning, and troubleshooting. Open it in any browser; it needs no server and no build step.
 
 ## Why this folder exists

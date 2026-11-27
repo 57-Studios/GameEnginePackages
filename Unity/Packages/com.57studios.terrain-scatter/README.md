@@ -4,6 +4,14 @@ Package ID: `com.57studios.terrain-scatter`
 
 MIT licensed. Copyright © 2026 57Studios. See `LICENSE.md`.
 
+## Installation
+
+In Unity, open **Window → Package Manager → + → Add package from git URL**:
+
+```text
+https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.terrain-scatter#unity-terrain-scatter-v0.1.0
+```
+
 Open **57Studios → Terrain Prefab Scatter** in the Unity Editor. Select a scene Terrain and one of its painted Terrain Layers. Add prefab assets to the list, enter the total count, and press **Scatter**. Each listed prefab has an equal chance of being selected for each placement.
 
 The selected layer must have the highest paint weight at a location. Painted cells are sampled evenly, and each instance is placed on the terrain height. Terrain holes are skipped. Scale/height variation changes each original prefab scale axis by up to the entered percentage. Rotation variation uses up to ±180° at 100% per axis. Zero leaves that axis unchanged.

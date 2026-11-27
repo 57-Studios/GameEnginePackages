@@ -4,6 +4,14 @@ MIT licensed. Copyright © 2026 57Studios.
 
 GPU-generated, GPU-compacted, indirectly drawn procedural terrain grass for URP. The renderer samples Unity Terrain height, normal, holes, and painted TerrainLayer weights, builds a procedural blade topology in memory, compacts valid instances on the GPU, and submits one indirect draw.
 
+## Installation
+
+In Unity, open **Window → Package Manager → + → Add package from git URL**:
+
+```text
+https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.procedural-grass#unity-procedural-grass-v0.1.0
+```
+
 ## Status
 
 Phase 1 vertical slice. It is a debug renderer, not a production grass system yet.
