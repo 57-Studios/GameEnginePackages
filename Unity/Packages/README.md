@@ -4,6 +4,7 @@ Each immediate subfolder is a UPM package.
 
 - Folder name must exactly match the package's `package.json` `name`.
 - Package IDs use `com.57studios.<name>`.
+- All packages are MIT licensed by default.
 - Each package must contain `package.json`, `README.md`, `CHANGELOG.md`, `LICENSE.md`, and the appropriate `Runtime/`, `Editor/`, and `Tests/` folders.
 - Documentation and samples use the tilde suffix: `Documentation~`, `Samples~`.
 - Never commit `Library/`, `Temp/`, `obj/`, or nested `.git` folders here.

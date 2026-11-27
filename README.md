@@ -1,6 +1,6 @@
 # 57 Studios Labs — Game Engine Packages
 
-Canonical source for 57 Studios Labs packages.
+Canonical source for 57 Studios Labs packages. All packages are MIT licensed.
 
 - **Workflow and rules:** [`AGENTS.md`](AGENTS.md)
 - **Unity packages:** [`Unity/Packages/`](Unity/Packages/)
@@ -13,8 +13,8 @@ Canonical source for 57 Studios Labs packages.
 The first three Unity packages are migrated and are consumed locally by the TestBench project:
 
 - `com.57studios.deformable-snow` — MIT, 16 EditMode tests passing
-- `com.57studios.procedural-grass` — proprietary, 1 EditMode smoke test passing
-- `com.57studios.terrain-scatter` — proprietary, 2 EditMode tests passing
+- `com.57studios.procedural-grass` — MIT, 1 EditMode smoke test passing
+- `com.57studios.terrain-scatter` — MIT, 2 EditMode tests passing
 
 The old `Assets/57Studios` copies have been removed. TestBench references the repository packages through its `Packages/manifest.json`.
 

@@ -102,12 +102,14 @@ Every Unity package must be a self-contained UPM package.
     "name": "57 Studios Labs"
   },
   "keywords": [],
-  "license": "See LICENSE.md"
+  "license": "MIT"
 }
 ```
 
 Rules:
 
+- All 57 Studios packages are **MIT licensed**. Include the standard MIT text in `LICENSE.md` (or `LICENSE`) and set `"license": "MIT"` in `package.json`.
+- Do not introduce a different license for a package without explicit approval. The default applies to all future releases.
 - `name` must be lowercase reverse-DNS: `com.57studios.<name>`.
 - Do not use `com.unity` or the word `unity` in the technical name.
 - `version` must be SemVer.
@@ -225,8 +227,8 @@ As of **2026-11-26**, three packages have been migrated into this repository and
 | Package | Package ID | Path | License | Status |
 |---|---|---|---|---|
 | Deformable Snow | `com.57studios.deformable-snow` | `Unity/Packages/com.57studios.deformable-snow` | MIT | Migrated. 16 EditMode tests pass. Test harness is editor-only under `Tests/PlayMode`. |
-| Procedural Grass | `com.57studios.procedural-grass` | `Unity/Packages/com.57studios.procedural-grass` | Proprietary | Migrated. 1 EditMode smoke test passes. Still a Phase 1 debug renderer. |
-| Terrain Prefab Scatter | `com.57studios.terrain-scatter` | `Unity/Packages/com.57studios.terrain-scatter` | Proprietary | Migrated. 2 EditMode tests pass. |
+| Procedural Grass | `com.57studios.procedural-grass` | `Unity/Packages/com.57studios.procedural-grass` | MIT | Migrated. 1 EditMode smoke test passes. Still a Phase 1 debug renderer. |
+| Terrain Prefab Scatter | `com.57studios.terrain-scatter` | `Unity/Packages/com.57studios.terrain-scatter` | MIT | Migrated. 2 EditMode tests pass. |
 
 Additional facts:
 
@@ -303,14 +305,14 @@ unity-deformable-snow-v0.1.0
   - multi-package product: `com.57studios.<product>.<package>`
 - The package folder and `package.json` name must match the reserved technical name.
 - A dependency shared by multiple products should be its own product, not an internal folder only.
-- Do not give a public Git URL for paid content. Use Asset Store UPM or a private registry so entitlement is enforced.
+- If a future package is explicitly approved as non-MIT, do not give it a public Git URL. Use Asset Store UPM or a private registry so entitlement is enforced.
 - For assets that need write access to their own package folder, installers, or self-modifying import steps, use `.unitypackage`, not an immutable UPM package.
 
 ### Git URL / registry
 
-- Use GitHub tags for free/open-source packages.
+- Use GitHub tags for MIT packages.
 - Use OpenUPM or another registry when transitive dependencies or a cleaner install experience are needed.
-- Public Git URLs are not a storefront and do not enforce Asset Store entitlement.
+- Public Git URLs are not a storefront and cannot enforce paid access. All current 57 Studios packages are MIT, so public Git distribution is allowed.
 
 ## 11. Agent checklist
 

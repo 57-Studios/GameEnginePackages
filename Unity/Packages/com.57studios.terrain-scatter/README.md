@@ -2,7 +2,7 @@
 
 Package ID: `com.57studios.terrain-scatter`
 
-Copyright © 2026 57Studios. All rights reserved. Proprietary addon. See `LICENSE.md`.
+MIT licensed. Copyright © 2026 57Studios. See `LICENSE.md`.
 
 Open **57Studios → Terrain Prefab Scatter** in the Unity Editor. Select a scene Terrain and one of its painted Terrain Layers. Add prefab assets to the list, enter the total count, and press **Scatter**. Each listed prefab has an equal chance of being selected for each placement.
 

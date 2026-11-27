@@ -1,6 +1,6 @@
 # 57 Studios Procedural Grass
 
-Copyright © 2026 57Studios. All rights reserved. Proprietary addon.
+MIT licensed. Copyright © 2026 57Studios.
 
 GPU-generated, GPU-compacted, indirectly drawn procedural terrain grass for URP. The renderer samples Unity Terrain height, normal, holes, and painted TerrainLayer weights, builds a procedural blade topology in memory, compacts valid instances on the GPU, and submits one indirect draw.
 
@@ -46,4 +46,4 @@ The test harness uses oversized debug blades so the result is visible. It is not
 
 ## License
 
-Proprietary. See `LICENSE.md`. No permission is granted to use, modify, or redistribute this package except under a separate written agreement with 57Studios.
+MIT. See `LICENSE.md`. You may use, modify, and redistribute this package, including commercially, provided the copyright and permission notice travels with it.

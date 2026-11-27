@@ -14,7 +14,7 @@
     "urp",
     "compute"
   ],
-  "license": "See LICENSE.md",
+  "license": "MIT",
   "dependencies": {
     "com.unity.render-pipelines.universal": "17.3.0"
   }
