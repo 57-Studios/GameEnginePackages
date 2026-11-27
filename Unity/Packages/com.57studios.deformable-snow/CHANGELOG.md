@@ -2,6 +2,16 @@
 
 All notable changes to this package are documented in this file.
 
+## [0.1.1] - 2026-11-27
+
+### Added
+
+- Assets-installable `.unitypackage` release. Importing it places the package under `Assets/57Studios/DeformableSnow`.
+
+### Fixed
+
+- The appearance material resolves correctly when the package is installed under `Assets/` instead of `Packages/`.
+
 ## [0.1.0] - 2026-11-26
 
 ### Added

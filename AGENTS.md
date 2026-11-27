@@ -224,9 +224,9 @@ After migration, the `Assets/57Studios/<Package>/` copy must not come back.
 
 As of **2026-11-27**, three packages have been migrated into this public repository and TestBench consumes them as local `file:` packages. The first release tags are published:
 
-- `unity-deformable-snow-v0.1.0`
-- `unity-procedural-grass-v0.1.0`
-- `unity-terrain-scatter-v0.1.0`
+- `unity-deformable-snow-v0.1.1`
+- `unity-procedural-grass-v0.1.1`
+- `unity-terrain-scatter-v0.1.1`
 
 | Package | Package ID | Path | License | Status |
 |---|---|---|---|---|
@@ -281,7 +281,7 @@ unity-<short-name>-v<major>.<minor>.<patch>
 Example:
 
 ```text
-unity-deformable-snow-v0.1.0
+unity-deformable-snow-v0.1.1
 ```
 
 - The tag must match the package's `package.json` version.
@@ -291,7 +291,24 @@ unity-deformable-snow-v0.1.0
 - Use a release branch only when a generated packaging artifact genuinely needs one. Do not develop features on it.
 - Do not create tags, releases, or publish packages unless explicitly asked.
 
-## 10. Asset Store and other distribution
+## 10. Distribution and install behavior
+
+### Install locations
+
+- **UPM Git URL or registry** — Unity installs to `Library/PackageCache` and shows the package under `Packages/`. It is read-only. This is the developer/iteration channel.
+- **`.unitypackage` release** — imports into `Assets/57Studios/<Package>/` and is editable. This is the user-facing assets-install channel.
+- **Samples** — imported on demand into `Assets/Samples/...`.
+- Do not tell users that a UPM Git URL installs under `Assets/`.
+
+### Building `.unitypackage` releases
+
+From the repository root, with a Unity project that resolves the packages:
+
+```bash
+python3 tools/build-unitypackages.py --project /path/to/UnityProject --out dist
+```
+
+The script exports each package, rewrites paths from `Packages/<id>` to `Assets/57Studios/<Name>`, excludes internal tests where appropriate, and writes `dist/<Name>-v<version>.unitypackage`. Attach those files to the matching GitHub Release.
 
 ### Asset Store `.unitypackage`
 

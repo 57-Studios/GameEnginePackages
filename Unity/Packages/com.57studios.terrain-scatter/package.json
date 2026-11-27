@@ -1,6 +1,6 @@
 {
   "name": "com.57studios.terrain-scatter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "57 Studios Terrain Prefab Scatter",
   "description": "Terrain-layer-aware prefab scattering for Unity Terrain. Places prefabs only on cells where the selected Terrain Layer has the highest paint weight, with slope, spacing, scale, rotation, and seed controls.",
   "unity": "6000.3",

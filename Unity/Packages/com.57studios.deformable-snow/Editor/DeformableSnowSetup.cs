@@ -77,6 +77,7 @@ namespace Studios57.DeformableSnow.Editor
     {
         public const string RootName = "DeformableSnow";
         private const string MaterialRelativePath = "Materials/PackedSlush.mat";
+        private const string AssetsMaterialPath = "Assets/57Studios/DeformableSnow/" + MaterialRelativePath;
         private const string SurfaceShaderName = "57Studios/DeformableSnow/Layer";
         private const string UndoLabel = "Set up DeformableSnow";
 
@@ -94,8 +95,11 @@ namespace Studios57.DeformableSnow.Editor
             get
             {
                 var package = UnityEditor.PackageManager.PackageInfo.FindForAssembly(typeof(DeformableSnowSetup).Assembly);
-                string root = package != null ? package.assetPath : "Packages/com.57studios.deformable-snow";
-                return root + "/" + MaterialRelativePath;
+                if (package != null)
+                    return package.assetPath + "/" + MaterialRelativePath;
+
+                // Asset-package installs live under Assets/ instead of Packages/.
+                return AssetsMaterialPath;
             }
         }
 

@@ -6,11 +6,19 @@ MIT licensed. Copyright © 2026 57Studios. See `LICENSE.md`.
 
 ## Installation
 
+### Assets install
+
+Download [TerrainScatter-v0.1.1.unitypackage](https://github.com/57-Studios/GameEnginePackages/releases/download/unity-terrain-scatter-v0.1.1/TerrainScatter-v0.1.1.unitypackage) and import it with **Assets → Import Package → Custom Package**. It lands under `Assets/57Studios/TerrainScatter/`.
+
+### UPM install
+
 In Unity, open **Window → Package Manager → + → Add package from git URL**:
 
 ```text
-https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.terrain-scatter#unity-terrain-scatter-v0.1.0
+https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.terrain-scatter#unity-terrain-scatter-v0.1.1
 ```
+
+UPM installs under `Packages/` and is read-only. Use the `.unitypackage` when you want the files under `Assets/`.
 
 Open **57Studios → Terrain Prefab Scatter** in the Unity Editor. Select a scene Terrain and one of its painted Terrain Layers. Add prefab assets to the list, enter the total count, and press **Scatter**. Each listed prefab has an equal chance of being selected for each placement.
 

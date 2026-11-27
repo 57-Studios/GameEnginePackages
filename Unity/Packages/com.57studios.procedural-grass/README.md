@@ -6,11 +6,19 @@ GPU-generated, GPU-compacted, indirectly drawn procedural terrain grass for URP.
 
 ## Installation
 
+### Assets install
+
+Download [ProceduralGrass-v0.1.1.unitypackage](https://github.com/57-Studios/GameEnginePackages/releases/download/unity-procedural-grass-v0.1.1/ProceduralGrass-v0.1.1.unitypackage) and import it with **Assets → Import Package → Custom Package**. It lands under `Assets/57Studios/ProceduralGrass/`.
+
+### UPM install
+
 In Unity, open **Window → Package Manager → + → Add package from git URL**:
 
 ```text
-https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.procedural-grass#unity-procedural-grass-v0.1.0
+https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.procedural-grass#unity-procedural-grass-v0.1.1
 ```
+
+UPM installs under `Packages/` and is read-only. Use the `.unitypackage` when you want the files under `Assets/`.
 
 ## Status
 

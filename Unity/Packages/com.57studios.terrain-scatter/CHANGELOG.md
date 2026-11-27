@@ -2,6 +2,12 @@
 
 All notable changes to this package are documented in this file.
 
+## [0.1.1] - 2026-11-27
+
+### Added
+
+- Assets-installable `.unitypackage` release. Importing it places the package under `Assets/57Studios/TerrainScatter`.
+
 ## [0.1.0] - 2026-11-26
 
 ### Changed

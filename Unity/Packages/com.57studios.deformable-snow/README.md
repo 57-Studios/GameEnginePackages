@@ -8,11 +8,19 @@ Runtime heightfield snow: surfaces accumulate a low-resolution displacement map 
 
 ## Installation
 
+### Assets install
+
+Download [DeformableSnow-v0.1.1.unitypackage](https://github.com/57-Studios/GameEnginePackages/releases/download/unity-deformable-snow-v0.1.1/DeformableSnow-v0.1.1.unitypackage) and import it with **Assets → Import Package → Custom Package**. It lands under `Assets/57Studios/DeformableSnow/`.
+
+### UPM install
+
 In Unity, open **Window → Package Manager → + → Add package from git URL**:
 
 ```text
-https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.deformable-snow#unity-deformable-snow-v0.1.0
+https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.deformable-snow#unity-deformable-snow-v0.1.1
 ```
+
+UPM installs under `Packages/` and is read-only. Use the `.unitypackage` when you want the files under `Assets/`.
 
 **New to this addon?** Read [`Documentation~/guide.html`](Documentation~/guide.html) — a single self-contained page covering setup, concepts, the full API, tuning, and troubleshooting. Open it in any browser; it needs no server and no build step.
 
