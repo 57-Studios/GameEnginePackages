@@ -8,14 +8,14 @@ MIT licensed. Copyright © 2026 57Studios. See `LICENSE.md`.
 
 ### Assets install
 
-Download [TerrainScatter-v0.1.1.unitypackage](https://github.com/57-Studios/GameEnginePackages/releases/download/unity-terrain-scatter-v0.1.1/TerrainScatter-v0.1.1.unitypackage) and import it with **Assets → Import Package → Custom Package**. It lands under `Assets/57Studios/TerrainScatter/`.
+Download [TerrainScatter-v0.1.2.unitypackage](https://github.com/57-Studios/GameEnginePackages/releases/download/unity-terrain-scatter-v0.1.2/TerrainScatter-v0.1.2.unitypackage) and import it with **Assets → Import Package → Custom Package**. It lands under `Assets/57Studios/TerrainScatter/`.
 
 ### UPM install
 
 In Unity, open **Window → Package Manager → + → Add package from git URL**:
 
 ```text
-https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.terrain-scatter#unity-terrain-scatter-v0.1.1
+https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.terrain-scatter#unity-terrain-scatter-v0.1.2
 ```
 
 UPM installs under `Packages/` and is read-only. Use the `.unitypackage` when you want the files under `Assets/`.

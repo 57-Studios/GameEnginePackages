@@ -28,9 +28,9 @@ Download the package and import it with **Assets → Import Package → Custom P
 
 | Package | Download |
 |---|---|
-| Deformable Snow | [DeformableSnow-v0.1.1.unitypackage](https://github.com/57-Studios/GameEnginePackages/releases/download/unity-deformable-snow-v0.1.1/DeformableSnow-v0.1.1.unitypackage) |
-| Procedural Grass | [ProceduralGrass-v0.1.1.unitypackage](https://github.com/57-Studios/GameEnginePackages/releases/download/unity-procedural-grass-v0.1.1/ProceduralGrass-v0.1.1.unitypackage) |
-| Terrain Prefab Scatter | [TerrainScatter-v0.1.1.unitypackage](https://github.com/57-Studios/GameEnginePackages/releases/download/unity-terrain-scatter-v0.1.1/TerrainScatter-v0.1.1.unitypackage) |
+| Deformable Snow | [DeformableSnow-v0.1.2.unitypackage](https://github.com/57-Studios/GameEnginePackages/releases/download/unity-deformable-snow-v0.1.2/DeformableSnow-v0.1.2.unitypackage) |
+| Procedural Grass | [ProceduralGrass-v0.1.2.unitypackage](https://github.com/57-Studios/GameEnginePackages/releases/download/unity-procedural-grass-v0.1.2/ProceduralGrass-v0.1.2.unitypackage) |
+| Terrain Prefab Scatter | [TerrainScatter-v0.1.2.unitypackage](https://github.com/57-Studios/GameEnginePackages/releases/download/unity-terrain-scatter-v0.1.2/TerrainScatter-v0.1.2.unitypackage) |
 
 ### Option B — UPM Git URL (installs under `Packages/`, read-only)
 
@@ -39,19 +39,19 @@ In Unity, open **Window → Package Manager → + → Add package from git URL**
 ### Deformable Snow
 
 ```text
-https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.deformable-snow#unity-deformable-snow-v0.1.1
+https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.deformable-snow#unity-deformable-snow-v0.1.2
 ```
 
 ### Procedural Grass
 
 ```text
-https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.procedural-grass#unity-procedural-grass-v0.1.1
+https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.procedural-grass#unity-procedural-grass-v0.1.2
 ```
 
 ### Terrain Prefab Scatter
 
 ```text
-https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.terrain-scatter#unity-terrain-scatter-v0.1.1
+https://github.com/57-Studios/GameEnginePackages.git?path=/Unity/Packages/com.57studios.terrain-scatter#unity-terrain-scatter-v0.1.2
 ```
 
 UPM packages do **not** import into `Assets/`; Unity caches them under `Library/PackageCache` and shows them under `Packages/`. Do not point users at `main`. Use tags. The `?path=` parameter must come before `#tag`.

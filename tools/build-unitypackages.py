@@ -51,7 +51,7 @@ AssetDatabase.ExportPackage(
 return System.IO.File.Exists(path) ? new System.IO.FileInfo(path).Length : -1;
 """
     result = subprocess.run(
-        [unity, "command", "--project-path", str(project), "script", "eval", code],
+        [unity, "command", "--project-path", str(project), "script", "eval", "--timeout", "120", code],
         check=False,
         text=True,
         capture_output=True,
