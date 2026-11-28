@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented in this file.
 
+## [0.1.3] - 2026-11-28
+
+### Changed
+
+- Merged the directed 57 Studios Labs guide style with the current setup, character, footprint, and troubleshooting content.
+- The package now ships its documentation in the source tag and links to the published guide.
+
 ## [0.1.2] - 2026-11-27
 
 ### Fixed

@@ -224,9 +224,9 @@ After migration, the `Assets/57Studios/<Package>/` copy must not come back.
 
 As of **2026-11-27**, three packages have been migrated into this public repository and TestBench consumes them as local `file:` packages. The first release tags are published:
 
-- `unity-deformable-snow-v0.1.2`
-- `unity-procedural-grass-v0.1.2`
-- `unity-terrain-scatter-v0.1.2`
+- `unity-deformable-snow-v0.1.3`
+- `unity-procedural-grass-v0.1.3`
+- `unity-terrain-scatter-v0.1.3`
 
 | Package | Package ID | Path | License | Status |
 |---|---|---|---|---|
@@ -281,7 +281,7 @@ unity-<short-name>-v<major>.<minor>.<patch>
 Example:
 
 ```text
-unity-deformable-snow-v0.1.2
+unity-deformable-snow-v0.1.3
 ```
 
 - The tag must match the package's `package.json` version.

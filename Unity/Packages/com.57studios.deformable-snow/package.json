@@ -1,6 +1,6 @@
 {
   "name": "com.57studios.deformable-snow",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "displayName": "57 Studios Deformable Snow",
   "description": "Runtime heightfield snow for URP. Characters, props, and debris press persistent footprints and trails into snow-covered surfaces without per-foot decals or modified terrain meshes.",
   "unity": "6000.3",

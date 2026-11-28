@@ -1,6 +1,6 @@
 {
   "name": "com.57studios.procedural-grass",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "displayName": "57 Studios Procedural Grass",
   "description": "GPU-generated, GPU-compacted, indirectly drawn procedural terrain grass for URP. Samples Unity Terrain height, normal, holes, and painted TerrainLayer weights to build and draw grass without a GameObject per blade.",
   "unity": "6000.3",

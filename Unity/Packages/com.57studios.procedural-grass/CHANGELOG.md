@@ -2,6 +2,12 @@
 
 All notable changes to this package are documented in this file.
 
+## [0.1.3] - 2026-11-28
+
+### Changed
+
+- Package documentation is now tracked and included in the source tag.
+
 ## [0.1.2] - 2026-11-27
 
 ### Fixed
