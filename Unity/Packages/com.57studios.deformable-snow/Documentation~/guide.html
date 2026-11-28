@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050505">
+<meta name="color-scheme" content="dark">
+<title>Deformable Snow — 57 Studios Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600&family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;1,7..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* 57 Studios Labs palette - https://labs.57studios.xyz/ */
+  --bg:#050505;
+  --panel:#080809;
+  --card:#0a0a0b;
+  --line:#222225;
+  --line-2:#2c2c30;
+  --soft:rgba(242,240,236,.06);
+  --fg:#f2f0ec;
+  --dim:#a1a1aa;
+  --dim-2:#90909a;
+  --accent:#9fd0e8;
+  --accent-deep:#5aa9c9;
+  --accent-soft:rgba(159,208,232,.12);
+  --accent-line:rgba(159,208,232,.34);
+  --mint:#8fe3c8;
+  --mint-deep:#3f8f7a;
+  --ember:#f0a36b;
+  --ember-deep:#b45e3e;
+  --ivory:#f2e6d8;
+
+  /* This guide's roles, mapped onto the Labs palette above. */
+  --paper:var(--bg);
+  --paper-2:var(--panel);
+  --paper-3:var(--card);
+  --ink:var(--fg);
+  --ink-2:var(--dim);
+  --ink-3:var(--dim-2);
+  --shadow-blue:var(--accent);
+  --shadow-blue-soft:var(--accent-deep);
+  --slush:var(--line-2);
+  --line-soft:var(--soft);
+
+  --display:'Bricolage Grotesque','Helvetica Neue',system-ui,sans-serif;
+  --body:'Literata',Georgia,'Times New Roman',serif;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+
+  --col:68ch;
+  --pad:clamp(1rem,4vw,3rem);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;color-scheme:dark}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:1.0625rem;
+  line-height:1.72;
+  font-optical-sizing:auto;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:clip;
+}
+p,ul,ol,pre,table,h1,h2,h3{max-width:100%}
+
+kbd{
+  font-family:var(--mono);
+  font-size:.82em;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-bottom-width:2px;
+  border-radius:3px;
+  padding:.08em .38em;
+  color:var(--ink);
+  white-space:nowrap;
+}
+
+/* ---------- hero ---------- */
+
+.hero{
+  position:relative;
+  border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(120% 90% at 78% 8%, var(--accent-soft) 0%, rgba(159,208,232,0) 58%),
+    linear-gradient(178deg, var(--paper-2) 0%, var(--paper) 62%);
+  overflow:hidden;
+}
+.hero-inner{
+  max-width:1180px;
+  margin:0 auto;
+  padding:clamp(2.5rem,7vw,5.5rem) var(--pad) 0;
+  min-width:0;
+}
+.brand{
+  font-family:var(--display);
+  font-size:.92rem;
+  font-weight:500;
+  letter-spacing:-.01em;
+  color:var(--ink-3);
+  margin:0 0 clamp(1.75rem,4vw,2.75rem);
+}
+.brand a{
+  color:inherit;
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  transition:color .15s,border-color .15s;
+}
+.brand a:hover{color:var(--fg);border-bottom-color:var(--accent-line)}
+.brand a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(2.6rem,7.2vw,5.1rem);
+  line-height:.98;
+  letter-spacing:-.03em;
+  font-weight:500;
+  margin:0 0 1.5rem;
+  max-width:15ch;
+  text-wrap:balance;
+}
+.hero .lede{
+  font-size:clamp(1.02rem,1.9vw,1.35rem);
+  line-height:1.62;
+  color:var(--ink-2);
+  max-width:min(52ch,100%);
+  margin:0 0 clamp(2rem,4vw,2.75rem);
+  font-weight:300;
+  overflow-wrap:break-word;
+}
+
+.facts{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.55rem 1.75rem;
+  margin:0 0 clamp(2rem,5vw,3rem);
+  font-family:var(--display);
+  font-size:.86rem;
+  color:var(--ink-2);
+  max-width:100%;
+}
+.facts div{display:flex;gap:.5rem;align-items:baseline;flex-wrap:wrap;min-width:0}
+.facts dt{
+  font-size:.78rem;
+  color:var(--ink-3);
+  margin:0;
+  white-space:nowrap;
+}
+.facts dd{margin:0;font-weight:500;color:var(--ink);white-space:nowrap}
+
+.surface-wrap{
+  position:relative;
+  margin:0 0 -2px;
+  border-top:1px solid var(--line);
+  border-left:1px solid var(--line);
+  border-right:1px solid var(--line);
+  border-radius:3px 3px 0 0;
+  overflow:hidden;
+  background:var(--panel);
+  cursor:crosshair;
+  touch-action:none;
+}
+#surface{
+  display:block;
+  width:100%;
+  height:clamp(150px,27vw,300px);
+}
+.surface-hint{
+  position:absolute;
+  left:1.1rem;
+  bottom:.85rem;
+  font-family:var(--display);
+  font-size:.78rem;
+  letter-spacing:.02em;
+  /* Sits on the ivory snow surface, not on the page, so it inks dark rather than dim. */
+  color:rgba(18,52,61,.62);
+  pointer-events:none;
+  transition:opacity .5s ease;
+}
+.surface-hint.is-spent{opacity:0}
+
+/* ---------- shell ---------- */
+
+.shell{
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 var(--pad);
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:0 clamp(2rem,5vw,4.5rem);
+}
+@media (min-width:1000px){
+  .shell{grid-template-columns:200px minmax(0,1fr)}
+}
+
+.toc{display:none}
+@media (min-width:1000px){
+  .toc{
+    display:block;
+    position:sticky;
+    top:0;
+    align-self:start;
+    max-height:100vh;
+    overflow-y:auto;
+    padding:3rem 0 4rem;
+    border-right:1px solid var(--line-soft);
+    margin-right:clamp(1rem,3vw,2.5rem);
+  }
+}
+.toc p{
+  font-family:var(--display);
+  font-size:.9rem;
+  color:var(--ink-3);
+  margin:0 0 1rem;
+}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:none}
+.toc li{margin:0 0 .15rem}
+.toc a{
+  display:block;
+  padding:.3rem 0;
+  color:var(--ink-2);
+  text-decoration:none;
+  font-family:var(--display);
+  font-size:.9rem;
+  border-left:1px solid transparent;
+  padding-left:.8rem;
+  margin-left:-.8rem;
+  transition:color .15s,border-color .15s;
+}
+.toc a:hover,.toc a:focus-visible{color:var(--ink);border-left-color:var(--shadow-blue)}
+.toc a:focus-visible{outline:2px solid var(--shadow-blue);outline-offset:2px}
+
+main{padding:clamp(2.5rem,6vw,4.5rem) 0 0;min-width:0}
+
+section{scroll-margin-top:1.5rem;padding-bottom:clamp(2.5rem,5vw,4rem)}
+section + section{border-top:1px solid var(--line-soft);padding-top:clamp(2rem,4vw,3rem)}
+
+h2{
+  font-family:var(--display);
+  font-size:clamp(1.6rem,3.4vw,2.15rem);
+  line-height:1.12;
+  letter-spacing:-.02em;
+  font-weight:500;
+  margin:0 0 .9rem;
+  max-width:24ch;
+  text-wrap:balance;
+}
+h3{
+  font-family:var(--display);
+  font-size:1.06rem;
+  font-weight:600;
+  letter-spacing:-.005em;
+  margin:2.25rem 0 .6rem;
+}
+p{margin:0 0 1.1rem;max-width:var(--col)}
+ul,ol{max-width:var(--col);padding-left:1.35rem;margin:0 0 1.15rem}
+li{margin:0 0 .4rem}
+li::marker{color:var(--shadow-blue)}
+strong{font-weight:600}
+::selection{background:var(--accent-line);color:var(--bg)}
+em{font-style:italic}
+
+a{color:var(--shadow-blue);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.15em}
+a:hover{color:var(--ink)}
+a:focus-visible{outline:2px solid var(--shadow-blue);outline-offset:2px}
+
+code{
+  font-family:var(--mono);
+  font-size:.855em;
+  background:var(--paper-3);
+  padding:.1em .35em;
+  border-radius:2px;
+  color:var(--fg);
+}
+
+/* ---------- lead statement ---------- */
+
+.statement{
+  max-width:var(--col);
+  font-size:1.24rem;
+  line-height:1.6;
+  font-weight:300;
+  color:var(--ink);
+  margin:0 0 1.6rem;
+}
+.statement strong{font-weight:500;background:linear-gradient(transparent 62%, var(--accent-soft) 62%)}
+
+/* ---------- sequences (only where order is real) ---------- */
+
+.steps{list-style:none;counter-reset:step;padding:0;margin:0 0 1.5rem;max-width:var(--col)}
+.steps > li{
+  counter-increment:step;
+  position:relative;
+  padding:0 0 1.35rem 2.9rem;
+  margin:0;
+}
+.steps > li::before{
+  content:counter(step,decimal-leading-zero);
+  position:absolute;
+  left:0;
+  top:.05rem;
+  font-family:var(--mono);
+  font-size:.8rem;
+  color:var(--shadow-blue);
+  letter-spacing:.02em;
+}
+.steps > li:not(:last-child)::after{
+  content:"";
+  position:absolute;
+  left:.62rem;
+  top:1.55rem;
+  bottom:.2rem;
+  width:1px;
+  background:var(--line);
+}
+.steps p{margin:0 0 .35rem}
+.steps p:last-child{margin-bottom:0}
+
+/* ---------- callouts ---------- */
+
+.note{
+  border-left:2px solid var(--shadow-blue-soft);
+  padding:.15rem 0 .15rem 1.15rem;
+  margin:1.6rem 0;
+  max-width:var(--col);
+  color:var(--ink-2);
+  font-size:.985rem;
+}
+.note p:last-child{margin-bottom:0}
+.note.warn{border-left-color:var(--ember)}
+.note.plain{border-left-color:var(--line);font-size:.95rem}
+
+/* ---------- code ---------- */
+
+pre{
+  font-family:var(--mono);
+  font-size:.83rem;
+  line-height:1.65;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:3px;
+  padding:1rem 1.15rem;
+  overflow-x:auto;
+  margin:0 0 1.25rem;
+  max-width:100%;
+  tab-size:4;
+}
+pre code{background:none;padding:0;font-size:1em;color:var(--fg)}
+.tok-key{color:var(--accent)}
+.tok-type{color:var(--mint)}
+.tok-str{color:var(--ember)}
+.tok-com{color:var(--dim-2);font-style:italic}
+.tok-num{color:var(--ivory)}
+
+/* ---------- api ---------- */
+
+.api-entry{
+  border-top:1px solid var(--line-soft);
+  padding:1.5rem 0 .9rem;
+  max-width:100%;
+  min-width:0;
+}
+.api-entry:first-of-type{border-top:none;padding-top:.6rem}
+.sig{
+  font-family:var(--mono);
+  font-size:.855rem;
+  line-height:1.55;
+  color:var(--ink);
+  margin:0 0 .7rem;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.api-entry p{margin:0 0 .6rem;max-width:var(--col)}
+.api-entry p:last-child{margin-bottom:0}
+.api-entry .returns{
+  font-family:var(--display);
+  font-size:.9rem;
+  color:var(--ink-2);
+}
+
+.params{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.9rem;
+  margin:0 0 .9rem;
+  table-layout:fixed;
+}
+.params th:first-child,.params td:first-child{width:11rem}
+.params th{
+  text-align:left;
+  font-family:var(--display);
+  font-size:.86rem;
+  color:var(--ink-3);
+  font-weight:500;
+  padding:0 .8rem .4rem 0;
+  border-bottom:1px solid var(--line);
+}
+.params td{
+  padding:.5rem .8rem .5rem 0;
+  border-bottom:1px solid var(--line-soft);
+  vertical-align:top;
+  color:var(--ink-2);
+}
+.params td:first-child{
+  font-family:var(--mono);
+  font-size:.83rem;
+  color:var(--ink);
+  white-space:nowrap;
+}
+
+/* ---------- tables ---------- */
+
+.table-wrap{overflow-x:auto;margin:0 0 1.4rem;max-width:100%}
+table.data{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.92rem;
+  min-width:30rem;
+}
+table.data th{
+  text-align:left;
+  font-family:var(--display);
+  font-size:.86rem;
+  color:var(--ink-3);
+  font-weight:500;
+  padding:.45rem .9rem .5rem 0;
+  border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+table.data td{
+  padding:.6rem .9rem .6rem 0;
+  border-bottom:1px solid var(--line-soft);
+  vertical-align:top;
+  color:var(--ink-2);
+}
+table.data td:first-child{color:var(--ink)}
+table.data td code{font-size:.82em}
+
+/* ---------- footer ---------- */
+
+footer{
+  border-top:1px solid var(--line);
+  margin-top:2rem;
+  background:var(--paper-2);
+}
+.footer-inner{
+  max-width:1180px;
+  margin:0 auto;
+  padding:2.5rem var(--pad) 3.5rem;
+  display:flex;
+  flex-wrap:wrap;
+  gap:1.5rem 3rem;
+  justify-content:space-between;
+  align-items:flex-start;
+  font-size:.9rem;
+  color:var(--ink-2);
+  font-family:var(--display);
+}
+.footer-inner p{margin:0;max-width:44ch;line-height:1.6}
+.footer-inner a{color:var(--shadow-blue)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="brand"><a href="https://labs.57studios.xyz/" target="_blank" rel="noopener">57 Studios Labs</a></p>
+    <h1>Deformable snow for Unity URP</h1>
+    <p class="lede">A snow-covered surface that records where characters, props and debris press into it — and slowly fills back in. No decals, no modified terrain, no mesh copy.</p>
+
+    <dl class="facts">
+      <div><dt>License</dt><dd>MIT</dd></div>
+      <div><dt>Engine</dt><dd>Unity 6000.3 · URP 17.3</dd></div>
+      <div><dt>Cost</dt><dd>0.07–0.10 ms GPU</dd></div>
+      <div><dt>Memory per volume</dt><dd>11 MiB at 1024²</dd></div>
+    </dl>
+
+    <div class="surface-wrap" id="surface-wrap">
+      <canvas id="surface" aria-label="Interactive snow surface. Drag across it to press marks into the snow."></canvas>
+      <p class="surface-hint" id="surface-hint">Drag across the surface</p>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc" aria-label="Contents">
+    <p>On this page</p>
+    <ol>
+      <li><a href="#start">Quick start</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#prints">Making things leave prints</a></li>
+      <li><a href="#turning-off">Turning snow on and off</a></li>
+      <li><a href="#api">API reference</a></li>
+      <li><a href="#tuning">Tuning</a></li>
+      <li><a href="#debug">Debugging</a></li>
+      <li><a href="#limits">Limitations</a></li>
+      <li><a href="#problems">Troubleshooting</a></li>
+      <li><a href="#license">License</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section id="start">
+      <h2>Quick start</h2>
+      <p class="statement">Open every scene that contains a <strong>Unity Terrain</strong>. Setup fits a separate deformation volume to each terrain you assign, so you never type a dimension the terrain could work out for you.</p>
+
+      <ol class="steps">
+        <li>
+          <p>Open <strong>57Studios → Deformable Snow Setup</strong>. To set up several scenes at once, open them additively in the Hierarchy.</p>
+          <p>The preview names each target scene and refuses a slot with no terrain, so a wrong scene cannot be modified silently.</p>
+        </li>
+        <li>
+          <p>Expand <strong>Snow Terrains</strong> and add a slot for each terrain. With every slot empty, setup uses the active scene's main terrain.</p>
+          <p>Check the preview for each terrain. It lists the scene, volume size, texel size, and capture depth. With <strong>Fit to Terrain</strong> on, a preferred centre outside a terrain uses that terrain's midpoint.</p>
+        </li>
+        <li>
+          <p>Press <strong>Set Up Rig</strong>.</p>
+          <p>This builds a volume and test walker for each assigned terrain. Setup replaces the rig in each target scene. Include every terrain you want in those scenes when rebuilding. One <kbd>Ctrl</kbd>+<kbd>Z</kbd> undoes the setup.</p>
+          <p><strong>Save target scenes</strong> saves the target scenes that already have files, including their pending edits. <strong>Clear Rig in Active Scene</strong> removes the rig from the active scene.</p>
+        </li>
+        <li>
+          <p>Enable the renderer feature.</p>
+          <p>Open your active <strong>Renderer asset</strong> (for example <code>Mobile_Renderer</code>) and tick <strong>Deformable Snow Layer</strong> in the Renderer Features list. The feature lives in the renderer, not the scene, so setup cannot create it for you.</p>
+        </li>
+        <li>
+          <p>Press Play.</p>
+          <p>Each test walker leaves prints in its volume. Press <kbd>F1</kbd> to inspect the nearest debug heightfield, or use the <strong>Validate</strong> tab to check the loaded volumes.</p>
+        </li>
+      </ol>
+
+      <div class="note plain">
+        <p>The feature ships disabled. If you see no snow at all after setup, this is almost always why — see <a href="#problems">Troubleshooting</a>.</p>
+      </div>
+    </section>
+
+    <section id="how">
+      <h2>How it works</h2>
+      <p>Snow deformation is a low-frequency effect. Rather than simulate anything, the addon keeps a small heightfield texture that records where things have pressed, and shades it onto the ground each frame.</p>
+
+      <h3>Three pieces</h3>
+      <ul>
+        <li><strong>Each volume</strong> is a box over part of a terrain. It owns its heightfield and unloads with that terrain's scene. All visible loaded volumes contribute to the same camera view. A reloaded scene starts with fresh heightfields.</li>
+        <li><strong>Deformers</strong> are the objects allowed to press into the snow. A deformer captures its assigned footprint box or the renderers beneath it.</li>
+        <li><strong>The screen-space layer</strong> draws the snow. It reads the depth buffer, not a mesh, so it covers the whole terrain without owning any geometry.</li>
+      </ul>
+
+      <p>Each volume draws its deformers’ footprint boxes and renderer shapes into a thin slab above the ground. Capture rejects geometry above the contact band, blurs the remaining mask, and accumulates it into the heightfield. Refill gradually fades the prints.</p>
+
+      <pre><code><span class="tok-com">// per frame, entirely on the GPU</span>
+capture   <span class="tok-com">// deformers -> thin orthographic mask</span>
+blur      <span class="tok-com">// separable, softens the print edges</span>
+accumulate <span class="tok-com">// height += contact * gain * dt</span>
+refill    <span class="tok-com">// height -= refillRate * dt</span></code></pre>
+
+      <div class="note">
+        <p>Nothing is ever read back to the CPU during play. The heightfield stays on the GPU, which keeps the per-frame simulation cheap.</p>
+      </div>
+
+      <h3>Why there is no snow mesh</h3>
+      <p>An earlier version generated a terrain-conforming mesh to displace. It worked, but it meant keeping a second copy of the ground that had to agree with the terrain exactly — and every bug in that version came from the two drifting apart.</p>
+      <p>The screen-space layer removes that class of problem entirely. It also means snow follows the camera for free, and lakes and rivers stay visible because transparent water draws after the snow.</p>
+    </section>
+
+    <section id="prints">
+      <h2>Making things leave prints</h2>
+      <p class="statement">Deformation is driven by <strong>shapes</strong>, not physics. Use a footprint box on a bone; use renderers on objects.</p>
+
+      <h3>Character footsteps</h3>
+      <ol>
+        <li>Open <strong>57Studios → Deformable Snow Setup → Characters</strong> and click <strong>Add Character</strong> for each character prefab. For an imported model, assign a prefab variant.</li>
+        <li>Assign the <strong>Character Prefab</strong> and use the searchable <strong>Foot Bones</strong> pickers to select its left and right foot bones. Use <strong>Add Foot Bone</strong> for extra feet.</li>
+        <li>Exit Prefab Mode for the target prefab, then click <strong>Add Footprints to Prefabs</strong>. The tool saves a child with a <code>BoxCollider</code> and <code>DeformableSnowDeformer</code> under each selected bone. In Prefab Mode, adjust the box centre and size to fit the sole. Physics is disabled on the generated box.</li>
+      </ol>
+      <p>Footsteps appear within a snow deformation volume when the box reaches the terrain's contact band. Running setup again adds missing footprints and keeps your existing box settings.</p>
+      <p>For a player who should leave prints across terrain and roads, enable <strong>Add Following Snow Volume</strong> before applying the prefab setup. Set <strong>Ground Layers</strong> on the resulting <code>DeformableSnowFollower</code> to the layers used by the ground and road colliders. The moving volume is 16 m wide and retains prints while they stay within that window.</p>
+      <h3>Other objects</h3>
+      <p>To make an object press into the snow, add a <code>DeformableSnowDeformer</code> component to it or to a parent. Every enabled renderer beneath that object is captured automatically when the deformer has no assigned footprint box.</p>
+
+      <pre><code><span class="tok-com">// anywhere in your gameplay code</span>
+<span class="tok-type">var</span> boot = GameObject.Find(<span class="tok-str">"Boot L"</span>);
+boot.AddComponent&lt;<span class="tok-type">DeformableSnowDeformer</span>&gt;();</code></pre>
+
+      <p>What actually gates whether an object leaves a print:</p>
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Requirement</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>An assigned footprint box or an enabled <code>Renderer</code></td><td>Either supplies the shape drawn into the capture mask.</td></tr>
+            <tr><td>A <code>DeformableSnowDeformer</code></td><td>Opts the object in. Nothing is captured by default.</td></tr>
+            <tr><td>Inside the volume bounds</td><td>The volume only captures within its own box.</td></tr>
+            <tr><td>Within <code>contactBand</code> of the ground</td><td>Keeps a lifted foot, or a torso, from writing.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>To use a box on a custom deformer, assign it in <strong>Footprint</strong>. The snow capture uses its dimensions even when the collider’s physics is disabled.</p>
+
+      <div class="note warn">
+        <p><strong>A collider alone changes nothing.</strong> The capture uses a <code>Renderer</code> or an explicitly assigned footprint box. Physics, collision events, and <code>Rigidbody</code> have no effect. The setup tool strips the primitive colliders from its test rig for exactly that reason.</p>
+      </div>
+
+      <h3>Put it on the foot, not the character</h3>
+      <p>Captured geometry is flattened into a silhouette. A whole-character deformer records shoulders and head as well as feet when they enter the contact band. Put renderer-based deformers on feet, hooves, props, and dragged objects instead. A footprint box on a bone is the exception: it is a deliberate shape.</p>
+
+      <h3>Refreshing after changes</h3>
+      <p>The renderer list is built once on enable. If you add, remove, or re-parent children at runtime, call <code>Refresh()</code>:</p>
+      <pre><code>deformer.Refresh();</code></pre>
+    </section>
+
+    <section id="turning-off">
+      <h2>Turning snow on and off</h2>
+      <p>There are several switches, and they do different things. Use the first one for gameplay.</p>
+
+      <pre><code><span class="tok-com">// stops the snow pass and the prepass it asks for</span>
+<span class="tok-type">DeformableSnowLayerFeature</span>.SetLayerEnabled(<span class="tok-key">false</span>);
+<span class="tok-type">DeformableSnowLayerFeature</span>.SetLayerEnabled(<span class="tok-key">true</span>);
+
+<span class="tok-com">// read the current state</span>
+<span class="tok-type">bool</span> drawing = <span class="tok-type">DeformableSnowLayerFeature</span>.LayerEnabled;</code></pre>
+
+      <p>This is static, so gameplay code does not need a reference to the feature. That matters, because the feature is a sub-asset of the renderer asset rather than an object in the scene.</p>
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Switch</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td><code>SetLayerEnabled(false)</code></td><td>Removes the shading pass and the depth-normals prepass it requested. The correct choice for a quality setting.</td></tr>
+            <tr><td><code>volume.enabled = false</code></td><td>Stops capture and simulation. Snow keeps drawing, it just stops deforming.</td></tr>
+            <tr><td><code>_SnowAmount = 0</code></td><td>Fades cover to nothing, but the full-screen pass still runs.</td></tr>
+            <tr><td><code>feature.SetActive(false)</code></td><td>Avoid in gameplay: writes the serialized field, which can persist to disk and mark the renderer asset dirty.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note plain">
+        <p>The enabled state is runtime-only and resets to on when scripts reload. If it is driven by a saved graphics setting, apply it on scene load rather than assuming it sticks.</p>
+      </div>
+    </section>
+
+    <section id="api">
+      <h2>API reference</h2>
+      <p>All types are in the namespace <code>Studios57.DeformableSnow</code>.</p>
+
+      <h3>DeformableSnowLayerFeature</h3>
+      <p>The renderer feature. Registered in your Renderer asset, not in the scene.</p>
+
+      <div class="api-entry">
+        <p class="sig">public static void SetLayerEnabled(bool value)</p>
+        <p>Turns the snow layer on or off everywhere. Callable from any code without a reference to the feature.</p>
+        <p class="returns">Returns nothing. Safe to call every frame.</p>
+      </div>
+
+      <div class="api-entry">
+        <p class="sig">public static bool LayerEnabled { get; }</p>
+        <p>Whether the layer is currently drawing. Useful for keeping a settings toggle in sync.</p>
+      </div>
+
+      <div class="api-entry">
+        <p class="sig">public bool Enabled { get; set; }</p>
+        <p>The same state, on a single feature instance. Only reachable if you already hold a reference, which the static method avoids needing.</p>
+      </div>
+
+      <h3>DeformableSnowVolume</h3>
+      <p>Owns the heightfield and the capture pipeline. Setup creates one; you only add your own for a second snow region.</p>
+
+      <div class="api-entry">
+        <p class="sig">public void Configure(Vector2 size, float surfaceY, float depth,
+    int texels, float depthMetres, float gain, float refill,
+    float contactBandMetres = 0.06f)</p>
+        <p>Sets every dimension at once. Rebuilds the GPU textures on the next frame if the resolution changed.</p>
+        <table class="params">
+          <tr><th>Parameter</th><th>Meaning</th></tr>
+          <tr><td>size</td><td>World XZ footprint of the volume.</td></tr>
+          <tr><td>surfaceY</td><td>World Y of the deepest point of the snow surface.</td></tr>
+          <tr><td>depth</td><td>Height of the capture slab above <code>surfaceY</code>. Must clear the terrain's height spread.</td></tr>
+          <tr><td>texels</td><td>Heightfield resolution. Rounded to a power of two, clamped to 64–2048.</td></tr>
+          <tr><td>depthMetres</td><td>World depth represented by a height of 1. The visual snow thickness.</td></tr>
+          <tr><td>gain</td><td>How fast contact accumulates. Higher means prints appear sooner and saturate.</td></tr>
+          <tr><td>refill</td><td>Height recovered per second, so trails fade.</td></tr>
+          <tr><td>contactBandMetres</td><td>How far above the ground an object still counts as touching.</td></tr>
+        </table>
+      </div>
+
+      <div class="api-entry">
+        <p class="sig">public void SetTerrain(Terrain targetTerrain)</p>
+        <p>Binds the terrain used to reject lifted geometry. Setup calls this with the terrain you slotted; it only needs calling directly if you build a volume yourself.</p>
+      </div>
+
+      <div class="api-entry">
+        <p class="sig">public Bounds Bounds { get; }</p>
+        <p>World-space bounds of the volume, including the capture slab. The shading pass uses this to map world positions into heightfield UVs.</p>
+      </div>
+
+      <div class="api-entry">
+        <p class="sig">public RenderTexture HeightTexture { get; }</p>
+        <p>The live compression heightfield. White means fully pressed and black means untouched snow. Read it for gameplay effects, or display it in your own UI.</p>
+      </div>
+
+      <div class="api-entry">
+        <p class="sig">public void SetDebugMode(int mode)</p>
+        <p>Shows the heightfield in an on-screen texture. <code>0</code> is compression, <code>1</code> is the raw capture mask, <code>2</code> is the derived normal. Pass <code>-1</code> to stop. The debug view calls this for you.</p>
+      </div>
+
+      <div class="api-entry">
+        <p class="sig">public void SetCaptureFlip(bool flipX, bool flipY)</p>
+        <p>Corrects the capture orientation. Only touch this if prints appear mirrored under your camera setup; the defaults are validated against the standard view matrix.</p>
+      </div>
+
+      <p>Read-only properties for diagnostics and tooling: <code>Resolution</code>, <code>WorldSize</code>, <code>HeightTexelSize</code>, <code>SnowDepth</code>, <code>SurfaceHeight</code>, <code>CaptureDepth</code>, <code>ContactBand</code>, <code>CaptureTexture</code>, <code>VisualTexture</code>, <code>DeformerCount</code>, <code>LastCapturedDraws</code>.</p>
+
+      <h3>DeformableSnowDeformer</h3>
+      <p>A marker component. Add it to anything that should press into snow.</p>
+
+      <div class="api-entry">
+        <p class="sig">public BoxCollider Footprint { get; }
+public void SetFootprint(BoxCollider shape)</p>
+        <p>Reads or sets the box drawn into the capture mask. The capture uses its transform, centre, and size. Pass <code>null</code> to resume capturing renderers.</p>
+      </div>
+
+      <div class="api-entry">
+        <p class="sig">public void Refresh()</p>
+        <p>Rebuilds the renderer list. Call after adding, removing or re-parenting children at runtime.</p>
+      </div>
+
+      <div class="api-entry">
+        <p class="sig">public IReadOnlyList&lt;Renderer&gt; Renderers { get; }</p>
+        <p>The renderers this deformer contributes when its footprint box is unassigned.</p>
+      </div>
+
+      <h3>DeformableSnowDebugView</h3>
+      <p>The <kbd>F1</kbd> overlay. Optional outside development.</p>
+
+      <div class="api-entry">
+        <p class="sig">public void Configure(DeformableSnowVolume targetVolume,
+    bool startVisible, int startMode)</p>
+        <p>Points the overlay at a volume and sets its initial state. The <kbd>F1</kbd> and <kbd>F2</kbd> keys still work afterwards.</p>
+      </div>
+
+      <div class="api-entry">
+        <p class="sig">public bool Visible { get; set; }
+public int Mode { get; set; }</p>
+        <p>Show or hide the overlay and choose what it displays, from code rather than the keyboard.</p>
+      </div>
+
+      <h3>Testing utilities</h3>
+      <div class="note plain">
+        <p><code>SnowTestWalker</code>, <code>SnowPerfProbe</code> and the <code>Editor</code> assembly exist to validate the feature. They are not runtime API and should not ship in a build.</p>
+      </div>
+    </section>
+
+    <section id="tuning">
+      <h2>Tuning</h2>
+      <p>Appearance lives in <code>Materials/PackedSlush.mat</code> and is edited through the Setup window's <strong>Appearance</strong> tab, so the material asset stays the single source of truth.</p>
+
+      <h3>Shape of the print</h3>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Setting</th><th>What it changes</th></tr></thead>
+          <tbody>
+            <tr><td><code>Contact Gain</code></td><td>How quickly a print deepens. Higher saturates sooner, which reads as softer snow.</td></tr>
+            <tr><td><code>Refill</code></td><td>How fast trails fade, in height per second. <code>0.02</code> clears a trail in about fifty seconds.</td></tr>
+            <tr><td><code>Contact Band</code></td><td>How far above the ground still counts as contact. Keep it well under your step lift, or a swinging foot smears into the next print.</td></tr>
+            <tr><td><code>Snow Depth</code></td><td>How deep the snow looks. This is the visual amplitude, not the heightfield's storage range.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Where and how much snow</h3>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Setting</th><th>What it changes</th></tr></thead>
+          <tbody>
+            <tr><td><code>Snow Amount</code></td><td>Overall coverage. Lower values leave ground showing through.</td></tr>
+            <tr><td><code>Slope Threshold</code></td><td>Minimum up-facing component that holds snow. Raise it to shed snow from gentle slopes. This is also what keeps grass billboards from being painted flat.</td></tr>
+            <tr><td><code>Slope Softness</code></td><td>Softens the transition at the slope threshold, so drifts don't end on a hard line.</td></tr>
+            <tr><td><code>Detail Strength</code></td><td>Grain and wind ripple, projected in world space.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Texel size is the real constraint</h3>
+      <p>A footprint is only resolvable if it spans several heightfield texels. At the default 8 mm texel the volume covers 8 m and a 14 cm foot spans about eighteen texels. Raise the texel size and the volume grows to match; the print gets coarser in proportion.</p>
+      <p>If prints look blocky, shrink the volume rather than raising the resolution. More texels over the same area costs memory and buys nothing if the volume is larger than the area you actually walk on.</p>
+    </section>
+
+    <section id="debug">
+      <h2>Debugging</h2>
+
+      <h3>The overlay</h3>
+      <p>Press <kbd>F1</kbd> to show the heightfield, <kbd>F2</kbd> to cycle between the accumulated compression, the raw capture mask, and the derived normal.</p>
+      <p>If the raw capture shows a foot but the heightfield does not, the problem is in accumulation. If neither shows a foot, the problem is in what is being captured.</p>
+
+      <h3>The validator</h3>
+      <p>The Setup window's <strong>Validate</strong> tab correlates the trail against the test rig's patrol line while in Play Mode. It reports whether prints follow the feet and whether individual prints are still separable.</p>
+
+      <div class="note">
+        <p>Correlation, not peak height, is the check that matters. A mirrored heightfield still reports a full-height peak, plausible coverage and a correct refill curve — only comparing the trail's direction against the rig catches it.</p>
+      </div>
+
+      <h3>Measuring cost</h3>
+      <pre><code><span class="tok-com">// compute chain: capture, blur, accumulate</span>
+<span class="tok-type">SnowPerfProbe</span>.StartProbe(volume);
+
+<span class="tok-com">// the screen-space shading pass, measured separately</span>
+<span class="tok-type">SnowPerfProbe</span>.StartLayerProbe();
+
+<span class="tok-com">// read the result afterwards</span>
+<span class="tok-type">Debug</span>.Log(<span class="tok-type">SnowPerfProbe</span>.LastReport);</code></pre>
+      <p>Both alternate the feature on and off in short blocks and report paired deltas, because the editor's GPU clock drifts over a long run.</p>
+    </section>
+
+    <section id="limits">
+      <h2>Limitations</h2>
+      <p>These are deliberate trade-offs, not unfinished work. Knowing them will save you time.</p>
+
+      <ul>
+        <li><strong>No silhouette.</strong> Snow cannot rise above a rock or drape over a ledge. It shades the ground, it does not add geometry.</li>
+        <li><strong>No snow self-shadowing.</strong> Prints shade through the normal, but cast no shadow of their own.</li>
+        <li><strong>Characters need an exclusion layer.</strong> Shoulders and heads face upward and would otherwise be painted. Set the feature's <em>Exclusion Layers</em> to your character and prop layers.</li>
+        <li><strong>Alpha-tested geometry is covered.</strong> Grass billboards sit in the depth buffer. The slope test rejects cards that face sideways, but how a dense scatter field reads under snow is a visual judgement you should make for your own scene.</li>
+        <li><strong>Water relies on draw order.</strong> Lakes and rivers stay visible because transparent water draws after the snow. That is ordering, not a mask.</li>
+        <li><strong>Normals need a prepass.</strong> The layer requests a depth-normals prepass so snow shades with the terrain's smooth vertex normals. A custom terrain shader without a <code>DepthNormals</code> pass will fall back to per-triangle shading and look faceted.</li>
+      </ul>
+    </section>
+
+    <section id="problems">
+      <h2>Troubleshooting</h2>
+
+      <h3>No snow at all</h3>
+      <p>The renderer feature is inactive. Open the Renderer asset used by the camera and tick <strong>Deformable Snow Layer</strong>. This is the cause almost every time — the feature ships off, and setup cannot enable it because it lives in the renderer rather than the scene.</p>
+
+      <h3>Snow looks faceted or low-poly</h3>
+      <p>The layer is falling back to per-triangle normals, which means the depth-normals prepass did not run or your terrain shader has no <code>DepthNormals</code> pass. Stock <code>TerrainLit</code> is fine. If you use a custom terrain shader, add the pass.</p>
+
+      <h3>Characters are painted white</h3>
+      <p>Set the feature's <em>Exclusion Layers</em> to include your character and prop layers. Anything on those layers is left unpainted.</p>
+
+      <h3>Prints appear, but not under the feet</h3>
+      <p>For a character prefab, check the selected bones and adjust the box centre under each sole. If the whole trail is mirrored around the volume centre, check <code>SetCaptureFlip</code> and verify with the <strong>Validate</strong> tab — a mirrored trail still looks like a trail.</p>
+
+      <h3>Prints merge into one continuous rail</h3>
+      <p>The swinging foot is still inside the contact band, so it writes while it travels. Lower <code>Contact Band</code>, or raise the gait's step lift above it with margin.</p>
+
+      <h3>Prints never appear</h3>
+      <p>Work down this list: an enabled deformer, an assigned footprint box or an enabled renderer, inside a loaded volume, inside the contact band. If you added children after Play started, call <code>Refresh()</code>. Press <kbd>F1</kbd>, then <kbd>F2</kbd> for the raw capture mask — an empty mask means nothing is being captured.</p>
+
+      <h3>Snow vanishes when you look away</h3>
+      <p>The scene view and game view use separate cameras. The layer draws in both by default; if one is missing snow, check <em>Inject In Scene View</em> on the feature.</p>
+    </section>
+
+    <section id="license">
+      <h2>License</h2>
+      <p>This addon is released under the <strong>MIT License</strong>. You may use, modify, merge, publish, distribute, sublicense and sell copies, provided the copyright notice and permission notice are included. It comes with no warranty.</p>
+      <p>The full text is in <code>LICENSE</code> beside this folder.</p>
+
+      <div class="note warn">
+        <p><strong>Scope.</strong> The MIT license covers <code>Packages/com.57studios.deformable-snow/</code> only. Content in the project that consumes it remains under its own terms.</p>
+      </div>
+
+      <h3>Credit</h3>
+      <p>The technique follows Colin Barré-Brisebois's GDC 2014 talk on deformable snow rendering in <em>Batman: Arkham Origins</em>, adapted here for Unity 6 and URP 17.3, where hardware tessellation is unavailable and real displacement is replaced by a screen-space pass.</p>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <p>Deformable Snow is part of the <a href="https://labs.57studios.xyz/" target="_blank" rel="noopener">57 Studios Labs</a> rendering toolkit for Unity URP. MIT licensed.</p>
+    <p><a href="#start">Back to quick start</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var wrap = document.getElementById('surface-wrap');
+  var canvas = document.getElementById('surface');
+  var hint = document.getElementById('surface-hint');
+  if (!wrap || !canvas) return;
+
+  var ctx = canvas.getContext('2d');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Simulation runs on a coarse grid and is upscaled with smoothing. That is the same
+  // arrangement the addon uses: a low-resolution heightfield read as a smooth surface.
+  var GW = 190, GH = 120;
+  var depth = new Float32Array(GW * GH);
+  var off = document.createElement('canvas');
+  off.width = GW;
+  off.height = GH;
+  var octx = off.getContext('2d');
+  var img = octx.createImageData(GW, GH);
+
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resize() {
+    var r = canvas.getBoundingClientRect();
+    canvas.width = Math.max(1, Math.round(r.width * dpr));
+    canvas.height = Math.max(1, Math.round(r.height * dpr));
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    draw();
+  }
+
+  function press(px, py, radius, strength, angle) {
+    var cx = px * GW, cy = py * GH;
+    var r2 = radius * radius;
+    var x0 = Math.max(0, Math.floor(cx - radius * 2.4));
+    var x1 = Math.min(GW - 1, Math.ceil(cx + radius * 2.4));
+    var y0 = Math.max(0, Math.floor(cy - radius * 2.4));
+    var y1 = Math.min(GH - 1, Math.ceil(cy + radius * 2.4));
+
+    for (var y = y0; y <= y1; y++) {
+      for (var x = x0; x <= x1; x++) {
+        var dx = x - cx, dy = y - cy;
+        // Elongate along the direction of travel so a drag reads as a boot, not a dot.
+        var ux = dx * Math.cos(-angle) - dy * Math.sin(-angle);
+        var uy = dx * Math.sin(-angle) + dy * Math.cos(-angle);
+        var d = (ux * ux) / r2 + (uy * uy) / (r2 * 0.40);
+        if (d > 1) continue;
+
+        // Dish-shaped profile: steep at the rim, flat at the floor. A plain falloff gives a
+        // soft blob that reads as a stain instead of a print.
+        var falloff = 1 - d;
+        falloff = falloff * falloff * (3 - 2 * falloff);
+        var v = depth[y * GW + x] + falloff * strength;
+        depth[y * GW + x] = v > 1 ? 1 : v;
+      }
+    }
+  }
+
+  function shade() {
+    var p = img.data;
+    // Light from the upper left, the conventional direction for reading relief.
+    var lightX = -0.52, lightY = -0.42, lightZ = 0.74;
+    var ll = Math.sqrt(lightX * lightX + lightY * lightY + lightZ * lightZ);
+    lightX /= ll; lightY /= ll; lightZ /= ll;
+
+    for (var y = 0; y < GH; y++) {
+      for (var x = 0; x < GW; x++) {
+        var i = y * GW + x;
+        var xm = x > 0 ? i - 1 : i;
+        var xp = x < GW - 1 ? i + 1 : i;
+        var ym = y > 0 ? i - GW : i;
+        var yp = y < GH - 1 ? i + GW : i;
+
+        // `depth` is compression, so it grows downward: surface height is negative depth.
+        // Height slope is therefore -(dDepth/dx), and the normal is -(height slope), which
+        // cancels to +dDepth/dx. Getting this sign wrong makes every print read as a raised
+        // bump instead of a pit, whichever way the light comes from.
+        var gx = (depth[xp] - depth[xm]) * 1.45;
+        var gy = (depth[yp] - depth[ym]) * 1.45;
+
+        // Broad wind drift, so untouched snow is never a flat plane.
+        var wx = x * 0.048, wy = y * 0.048;
+        var driftX =
+          Math.cos(wx * 1.6 + 1.1) * Math.cos(wy * 1.2 + 0.4) * 0.020 +
+          Math.cos(wx * 3.3 + 2.7) * Math.cos(wy * 2.9 + 1.9) * 0.008;
+        var driftY =
+          Math.sin(wx * 1.6 + 1.1) * Math.sin(wy * 1.2 + 0.4) * 0.016 +
+          Math.sin(wx * 3.3 + 2.7) * Math.sin(wy * 2.9 + 1.9) * 0.006;
+
+        var nx = gx + driftX, ny = gy + driftY, nz = 1;
+        var nl = Math.sqrt(nx * nx + ny * ny + nz * nz);
+        var ndl = (nx * lightX + ny * lightY + nz * lightZ) / nl;
+
+        // Form comes from the light, not from a colour ramp. The walls of a print that face
+        // away from the light darken and the ones facing it brighten, which is what makes the
+        // depression read as a depression rather than as a stain.
+        var lit = 0.52 + 0.60 * ndl;
+        if (lit > 1.05) lit = 1.05;
+        if (lit < 0.30) lit = 0.30;
+
+        // Snow reflects the sky: highlights are neutral white and shadows go blue, never grey.
+        // Ivory highlights looked warm against the dark page, so the ramp is anchored on pure
+        // white and only the shade carries a Labs blue.
+        var r = 255 * lit + (1 - lit) * 47;
+        var g = 255 * lit + (1 - lit) * 111;
+        var b = 255 * lit + (1 - lit) * 134;
+
+        // The compacted floor is wet and slushed, so it darkens slightly and loses a little
+        // saturation. Kept low on purpose: at full strength it reads as a dirty smudge and the
+        // print stops looking like displaced snow.
+        var c = depth[i];
+        var wet = c * 0.20;
+        r = r + (18 - r) * wet;
+        g = g + (52 - g) * wet;
+        b = b + (61 - b) * wet;
+
+        // A touch of contact shadow in the deepest part, so the floor sits below the rim.
+        var occl = 1 - c * 0.10;
+        r *= occl; g *= occl; b *= occl;
+
+        var o = i * 4;
+        p[o] = r;
+        p[o + 1] = g;
+        p[o + 2] = b;
+        p[o + 3] = 255;
+      }
+    }
+    octx.putImageData(img, 0, 0);
+  }
+
+  function draw() {
+    shade();
+    var w = canvas.width / dpr;
+    var h = canvas.height / dpr;
+    ctx.clearRect(0, 0, w, h);
+    ctx.drawImage(off, 0, 0, w, h);
+  }
+
+  // Seed a short trail so the surface is legible before it is touched. Two feet, offset,
+  // so it reads as a walk rather than a dotted line.
+  (function seed() {
+    var path = [
+      [0.24, 0.34], [0.30, 0.41], [0.36, 0.48], [0.42, 0.55], [0.48, 0.62],
+      [0.56, 0.55], [0.62, 0.48], [0.68, 0.41], [0.74, 0.34], [0.80, 0.27]
+    ];
+    for (var i = 0; i < path.length; i++) {
+      var ang = 0.72;
+      var offx = Math.cos(ang + Math.PI / 2) * 0.011;
+      var offy = Math.sin(ang + Math.PI / 2) * 0.011;
+      press(path[i][0] + offx, path[i][1] + offy, 5.0, 1.0, ang);
+    }
+  })();
+
+  var last = null;
+  var spent = false;
+
+  function markSpent() {
+    if (spent) return;
+    spent = true;
+    if (hint) hint.classList.add('is-spent');
+  }
+
+  function pointToGrid(ev) {
+    var r = canvas.getBoundingClientRect();
+    return {
+      x: (ev.clientX - r.left) / r.width,
+      y: (ev.clientY - r.top) / r.height
+    };
+  }
+
+  function onMove(ev) {
+    var p = pointToGrid(ev);
+    if (p.x < 0 || p.x > 1 || p.y < 0 || p.y > 1) return;
+
+    var angle = 0;
+    var step = 0.012;
+    if (last) {
+      var dx = p.x - last.x, dy = p.y - last.y;
+      if (dx * dx + dy * dy < 0.0000016) return;
+      angle = Math.atan2(dy, dx);
+      step = Math.min(Math.sqrt(dx * dx + dy * dy), 0.05);
+    }
+    press(p.x, p.y, 4.2, 0.5 + step * 4, angle);
+    last = p;
+    markSpent();
+    draw();
+  }
+
+  var dragging = false;
+  wrap.addEventListener('pointerdown', function (ev) {
+    dragging = true;
+    last = null;
+    wrap.setPointerCapture(ev.pointerId);
+    onMove(ev);
+  });
+  wrap.addEventListener('pointermove', function (ev) {
+    if (dragging) { onMove(ev); return; }
+    // Light pressure follows the cursor even without a press, so the surface feels alive
+    // rather than inert. Deliberately subtle.
+    if (ev.pointerType === 'mouse') {
+      var p = pointToGrid(ev);
+      if (p.x < 0 || p.x > 1 || p.y < 0 || p.y > 1) return;
+      press(p.x, p.y, 3.2, 0.055, 0);
+      draw();
+    }
+  });
+  wrap.addEventListener('pointerup', function () { dragging = false; last = null; });
+  wrap.addEventListener('pointercancel', function () { dragging = false; last = null; });
+  wrap.addEventListener('pointerleave', function () { last = null; });
+
+  var raf = 0;
+  var prev = 0;
+
+  function tick(t) {
+    if (!prev) prev = t;
+    var dt = Math.min((t - prev) / 1000, 0.05);
+    prev = t;
+
+    var rate = 0.35;
+    var k = 1 - rate * dt;
+    if (k < 0) k = 0;
+
+    var changed = false;
+    for (var i = 0; i < depth.length; i++) {
+      if (depth[i] > 0.0005) {
+        depth[i] *= k;
+        changed = true;
+      } else if (depth[i] !== 0) {
+        depth[i] = 0;
+      }
+    }
+    if (changed) draw();
+    raf = requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  if (!reduce) {
+    raf = requestAnimationFrame(tick);
+  }
+})();
+</script>
+</body>
+</html>
